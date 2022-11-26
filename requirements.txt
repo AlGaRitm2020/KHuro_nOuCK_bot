@@ -1,0 +1,4 @@
+aiogram<3.0
+requests
+bs4
+environs~=8.0.0
