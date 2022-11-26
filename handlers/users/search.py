@@ -94,7 +94,6 @@ async def recive_photo_eroor(message: Message, state: FSMContext):
     """
     if message.text == keyboards.default.back_captions[0]:
         await state.finish()
-    u = message.text + keyboard.default.back_captions[0]
     await message.answer(message.text + '   ' + keyboards.default.back_captions[0])
 
 
