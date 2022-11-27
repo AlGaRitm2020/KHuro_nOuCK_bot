@@ -2,6 +2,7 @@ from aiogram.dispatcher import FSMContext
 
 import os
 import parsing.get_book
+import parsing.recognition
 
 from loader import dp
 from aiogram.types import Message, ReplyKeyboardRemove, ParseMode
@@ -55,18 +56,20 @@ async def recive_text(message: Message, state: FSMContext):
 async def recive_photo(message: Message, state: FSMContext):
     chat_id = message.from_user.id
     await message.photo[-1].download(f'user_folders/user_{chat_id}/{str(uuid4())[-11::]}.jpg')
+    jpg_addr = f'user_folders/user_{chat_id}/last.jpg'
+    await message.photo[-1].download(jpg_addr)
+
     await message.answer(f"Парсинг занимает несколько секунд", reply_markup=keyboards.default.back_menu)
 
 
     # === starting text recognition
-    def get_book_name():
-        return "Война и мир" 
 
-    book_name = get_book_name()
+
+    query = await parsing.recognition.recognition(jpg_addr)
+
     # === end
     
     
-    query = "Кострикин введение в алгебру"
     try:
         name, author, byte_img, pages, genre, description, link = await parsing.get_book.parse_book(query)
 
