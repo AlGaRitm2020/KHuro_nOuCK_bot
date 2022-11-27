@@ -8,6 +8,14 @@ from aiogram.dispatcher.filters import Command
 
 import utils
 
+@dp.message_handler(state="*", text=keyboards.default.book_captions[5])
+async def back(message: Message, state=FSMContext):
+    
+    await state.finish()
+    
+    await message.answer("Вы вернулись в главное меню", reply_markup=keyboards.default.menu)
+
+
 @dp.message_handler(text=keyboards.default.book_captions[0], state=states.BookMenu.save)
 async def save_book(message: Message, state=FSMContext):
     
@@ -90,10 +98,4 @@ async def get_feedback(message: Message, state=FSMContext):
     await message.answer("Отзыв о книге сохранен")
     await states.BookMenu.save.set()
 
-@dp.message_handler(state="*", text=keyboards.default.book_captions[5])
-async def back(message: Message, state=FSMContext):
-    
-    await state.finish()
-    
-    await message.answer("Вы вернулись в главное меню", reply_markup=keyboards.default.menu)
 

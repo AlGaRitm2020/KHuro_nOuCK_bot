@@ -49,6 +49,8 @@ async def recive_text(message: Message, state: FSMContext):
         await states.BookMenu.save.set()     
     except: 
         await message.answer('По данному запросу ничего не найдено')
+        await state.finish()
+
 @dp.message_handler(state=states.SearchByPhoto.recive_photo, content_types=['photo'])
 async def recive_photo(message: Message, state: FSMContext):
     chat_id = message.from_user.id
@@ -84,6 +86,7 @@ async def recive_photo(message: Message, state: FSMContext):
 
     except:
         await message.answer("По данному запросу ничего не найдено")
+        await state.finish()
 
 @dp.message_handler(state=states.SearchByPhoto.recive_photo)
 async def recive_photo_eroor(message: Message, state: FSMContext):
@@ -92,9 +95,6 @@ async def recive_photo_eroor(message: Message, state: FSMContext):
         await state.finish()
         return 
     """
-    if message.text == keyboards.default.back_captions[0]:
-        await state.finish()
-    await message.answer(message.text + '   ' + keyboards.default.back_captions[0])
 
 
     await message.answer("Ошибка! Отправьте одну картинку", reply_markup=keyboards.default.back_menu)     

@@ -57,13 +57,21 @@ async def make_rate(chat_id, book_name, rate):
     cur.execute("SELECT rate from favorites WHERE chat_id= {} AND book_name ='{}' ;".format(chat_id, book_name)) 
     res = cur.fetchall()
     if (len(res) == 0):
-        cur.execute("INSERT INTO favorites (book_name,is_read chat_id, rate, feedback) VALUES ('{}',{}, {}, {}, '{}')".format(book_name,0, chat_id, rate, '')) 
+        cur.execute("INSERT INTO favorites (book_name,is_read,  chat_id, rate, feedback) VALUES ('{}',{}, {}, {}, '{}')".format(book_name,0, chat_id, rate, '')) 
     else:
         cur.execute("UPDATE favorites SET rate = '{}' WHERE chat_id = '{}' AND book_name = '{}'".format(rate, chat_id, book_name))
 
 
     con.commit()
     return True
+
+async def add_to_folder(chat_id, book_name, folder): 
+    con = sqlite3.connect('books.db')
+    cur = con.cursor()
+    return 
+
+
+    
 
 
 async def make_feedback(chat_id, book_name, feedback):
